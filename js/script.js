@@ -1,48 +1,84 @@
 /*jshint esversion: 6 */
 
-// Lightbox functionality
-// the first step we want to do is to show our lightbox when we click on an image
-// we want to make sure that the image we clicked on will be in the lightbox
-// we want to make sure that when we click on the lightbox when its visible that it will fade out and hide itself again
+// listen for scroll event on the page.
+// When the scroll bar reachea x distance change background color
 
-$('.brogues img, .stationary img').on('click', function() {
-  $('.lightbox').fadeIn();
+const bodyTag = document.querySelector('body');
 
-  let imageSrc = $(this).attr('src');
-  $('.lightbox img').attr('src', imageSrc);
-});
-
-$('.lightbox').on('click', function() {
-  $('.lightbox').fadeOut();
-});
-
-// We first need to listen for the scroll event on the page
-// Next, when our browser reaches a certain distance form the top of the page we need to change the body elements background color
-
-const body = document.querySelector("body");
-
-// Listen out for scroll events on our page
+// what happens when an action is done. listen out for any scroll events on our page.
 document.addEventListener("scroll", function() {
-  //console.log("Page scrolled");
 
-  // Find out and store how far from the top of the page the scrollbar is
+  //do something when page is scrolled
+  console.log("Page has been scrolled");
+
+  //step 3 find out and store how far the scroll bar is from the bottom
+
   let distanceFromTop = window.scrollY;
   console.log(distanceFromTop);
 
-  // If distanceFromTop is greater than 1000 pixels, do something
+  //if the distance from the top is greater than 1000px do an action.
+
   if (distanceFromTop > 1000) {
-    console.log("past 1000 pixels");
-    body.classList.add("brogue-active");
+
+    //bodyTag.style.backgroundColor = "red";
+    bodyTag.classList.add("brogue-active");
+
   } else {
-    // Otherwise do something else
-    console.log("less than 1000 pixels down");
-    body.classList.remove("brogue-active");
+    bodyTag.classList.remove("brogue-active");
+    //bodyTag.style.backgroundColor = "white";
+
   }
 
-  if (distanceFromTop > 4400) {
-    body.classList.add("stationary-active");
+  if (distanceFromTop > 4300) {
+
+    //bodyTag.style.backgroundColor = "red";
+    bodyTag.classList.add("stationary-active");
+
   } else {
-    body.classList.remove("stationary-active");
+    bodyTag.classList.remove("stationary-active");
+    //bodyTag.style.backgroundColor = "white";
+
   }
+
+
+
+});
+
+
+
+//Light box
+
+//when we click on image we want to show the white box
+// show the image clicked on
+//fade in
+//when we click pn the light box the image disapears
+
+//step 1 decide what html tag we will use and make them a contrasting
+
+const images = document.querySelectorAll("section img");
+console.log(images);
+const lightbox = document.querySelector(".lightbox");
+const lightboxImage = document.querySelector(".lightbox img");
+
+console.log(images);
+
+
+images.forEach(image => {
+  image.addEventListener("click", function() {
+    console.log("Image clicked");
+
+    lightbox.classList.add("fadein");
+    let imageSrc = this.getAttribute("src");
+    console.log(imageSrc);
+    lightboxImage.setAttribute("src", imageSrc);
+
+
+  });
+});
+
+//When we click on the light box remove the fade in clas
+
+lightbox.addEventListener("click", function() {
+  lightbox.classList.remove("fadein");
 
 });
